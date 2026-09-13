@@ -4,7 +4,7 @@ import { chromium } from "playwright";
 const app = express();
 const PORT = Number(process.env.PORT || 10000);
 const STREAM_URL = process.env.STREAM_URL || "";
-const CLIENTS = Math.max(1, Math.min(Number(process.env.CLIENTS || 5), 10));
+const CLIENTS = Math.max(1, Math.min(Number(process.env.CLIENTS || 2), 2));
 const RUN_ON_START = String(process.env.RUN_ON_START || "true").toLowerCase() === "true";
 const HEADLESS = String(process.env.HEADLESS || "true").toLowerCase() !== "false";
 
@@ -37,7 +37,7 @@ const PROFILES = [
   { ua: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36", width: 1366, height: 768, locale: "fa-IR", tz: "Asia/Tehran" },
   { ua: "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36", width: 1536, height: 864, locale: "en-US", tz: "Europe/Amsterdam" },
   { ua: "Mozilla/5.0 (Macintosh; Intel Mac OS X 13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36", width: 1440, height: 900, locale: "en-US", tz: "America/New_York" },
-  { ua: "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:142.0) Gecko/20100101 Firefox/142.0", width: 1920, height: 1080, locale: "de-DE", tz: "Europe/Berlin" },
+  { ua: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36", width: 1920, height: 1080, locale: "de-DE", tz: "Europe/Berlin" },
   { ua: "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36", width: 1280, height: 800, locale: "tr-TR", tz: "Europe/Istanbul" }
 ];
 
@@ -139,13 +139,21 @@ async function startAll() {
     headless: HEADLESS,
     args: [
       "--no-sandbox",
-      "--disable-dev-shm-usage"
+      "--disable-dev-shm-usage",
+      "--disable-gpu",
+      "--disable-extensions",
+      "--disable-background-networking",
+      "--disable-sync",
+      "--disable-translate",
+      "--no-first-run",
+      "--no-default-browser-check",
+      "--mute-audio"
     ]
   });
 
   for (let i = 1; i <= CLIENTS; i++) {
     startClient(i).catch(err => console.error(`[client-${i}]`, err));
-    await new Promise(r => setTimeout(r, 1000));
+    await new Promise(r => setTimeout(r, 2500));
   }
 }
 

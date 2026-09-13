@@ -41,3 +41,8 @@ for diagnostic testing. The service also reports observable browser properties i
 
 This is not an anti-bot evasion system: it does not spoof Canvas/WebGL, rotate IPs,
 bypass CAPTCHA, or attempt to defeat a platform's identity/anti-fraud controls.
+
+
+## Free Render memory note
+
+The Free instance has a 512 MB memory limit. Chromium is memory-heavy, so this free-optimized build is intentionally limited to 2 browser clients. If you set CLIENTS higher, the service may be killed by Render for out-of-memory. For 5 simultaneous Chromium clients, use a Render plan with more memory.

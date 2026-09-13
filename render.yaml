@@ -7,7 +7,7 @@ services:
       - key: STREAM_URL
         sync: false
       - key: CLIENTS
-        value: "5"
+        value: "2"
       - key: HEADLESS
         value: "true"
       - key: RUN_ON_START
