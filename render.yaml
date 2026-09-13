@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: stream-test-clients
+    runtime: docker
+    healthCheckPath: /health
+    envVars:
+      - key: STREAM_URL
+        sync: false
+      - key: CLIENTS
+        value: "5"
+      - key: HEADLESS
+        value: "true"
+      - key: RUN_ON_START
+        value: "true"
